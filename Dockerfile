@@ -1,5 +1,5 @@
 # Base image built from Dockerfile.base (Chrome Stable + Node LTS)
-FROM msmart/-chrome-headless:latest
+FROM smartmsmart/chrome-headless
 
 LABEL "com.github.actions.name"="Lighthouse Audit"
 LABEL "com.github.actions.description"="Run tests on a webpage via Google's Lighthouse tool"
