@@ -48,6 +48,6 @@ printf "* Detailed results are saved here, use https://github.com/actions/upload
 printf "    %s\n" "$OUTPUT_PATH.report.html"
 printf "    %s\n" "$OUTPUT_PATH.report.json"
 
-echo "output_path=${OUTPUT_PATH}" >> $GITHUB_ENV
+echo "output_path=${OUTPUT_FILENAME}" >> $GITHUB_ENV
 
 exit 0
