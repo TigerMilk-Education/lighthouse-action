@@ -2,16 +2,8 @@
 
 set -e
 
-# Check if we're being triggered by a pull request.
-PULL_REQUEST_NUMBER=$(jq .number "$GITHUB_EVENT_PATH")
+REPORT_URL=$INPUT_URL
 
-# If this is a PR and Netlify is configured, plan to check the deploy preview and generate its unique URL.
-# Otherwise, simply check the provided live URL.
-if [ -n "$INPUT_NETLIFY_SITE" ] && [ -n "$PULL_REQUEST_NUMBER" ] && [ "$PULL_REQUEST_NUMBER" != "null" ]; then
-  REPORT_URL="https://deploy-preview-$PULL_REQUEST_NUMBER--$INPUT_NETLIFY_SITE"
-else
-  REPORT_URL=$INPUT_URL
-fi
 
 # Prepare directory for audit results and sanitize URL to a valid and unique filename.
 OUTPUT_FOLDER="report"
@@ -33,6 +25,7 @@ SCORE_ACCESSIBILITY=$(jq '.categories["accessibility"].score' "$OUTPUT_PATH".rep
 SCORE_PRACTICES=$(jq '.categories["best-practices"].score' "$OUTPUT_PATH".report.json)
 SCORE_SEO=$(jq '.categories["seo"].score' "$OUTPUT_PATH".report.json)
 SCORE_PWA=$(jq '.categories["pwa"].score' "$OUTPUT_PATH".report.json)
+
 
 # Print scores to standard output (0 to 100 instead of 0 to 1).
 # Using hacky bc b/c bash hates floating point arithmetic...
