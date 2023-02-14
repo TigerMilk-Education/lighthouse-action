@@ -1,19 +1,18 @@
 # Base image built from Dockerfile.base (Chrome Stable + Node LTS)
-FROM smartmsmart/chrome-headless
+FROM justinribeiro/chrome-headless
 
 LABEL "com.github.actions.name"="Lighthouse Audit"
 LABEL "com.github.actions.description"="Run tests on a webpage via Google's Lighthouse tool"
 LABEL "com.github.actions.icon"="check-square"
 LABEL "com.github.actions.color"="yellow"
 
-LABEL version="0.3.2"
-LABEL repository="https://github.com/jakejarvis/lighthouse-action"
-LABEL homepage="https://jarv.is/"
-LABEL maintainer="Jake Jarvis <jake@jarv.is>"
+LABEL version="0.4.2"
 
-# Download latest Lighthouse build from npm
-# Cache bust to ensure latest version when building the image
+# Download latest Lighthouse build from npm and install deps for lighthouse run
 ARG CACHEBUST=1
+USER root
+RUN apt-get update && apt-get install -y sudo curl git jq bc
+RUN curl -fsSL https://deb.nodesource.com/setup_19.x | sudo -E bash - && sudo apt-get install -y nodejs
 RUN npm install -g lighthouse
 
 # Disable Lighthouse error reporting to prevent prompt
