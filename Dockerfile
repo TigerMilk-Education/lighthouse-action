@@ -1,5 +1,5 @@
 # Base image built from Dockerfile.base (Chrome Stable + Node LTS)
-FROM justinribeiro/chrome-headless
+FROM browserless/chrome
 
 LABEL "com.github.actions.name"="Lighthouse Audit"
 LABEL "com.github.actions.description"="Run tests on a webpage via Google's Lighthouse tool"
@@ -8,7 +8,8 @@ LABEL "com.github.actions.color"="yellow"
 
 LABEL version="0.4.2"
 
-# Download latest Lighthouse build from npm and install deps for lighthouse run
+# Download latest Lighthouse build from npm
+# Cache bust to ensure latest version when building the image
 ARG CACHEBUST=1
 USER root
 RUN apt-get update && apt-get install -y sudo curl git jq bc
